@@ -51,7 +51,7 @@ public class ChartGui extends JFrame{
         gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.WEST;
         gbc.insets = new Insets(5, 0, 5, 5);
-        fieldsPanel.add(new JLabel("Data 1:"), gbc);
+        fieldsPanel.add(new JLabel("Binomial Name:"), gbc);
 
         gbc.gridx = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -61,7 +61,7 @@ public class ChartGui extends JFrame{
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.fill = GridBagConstraints.NONE;
-        fieldsPanel.add(new JLabel("Data 2:"), gbc);
+        fieldsPanel.add(new JLabel("Clade:"), gbc);
 
         gbc.gridx = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
