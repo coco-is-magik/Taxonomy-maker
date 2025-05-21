@@ -12,6 +12,7 @@ public class ChartGui extends JFrame{
     private JTextField dataField;
     private JButton addChildBtn;
 
+    
     public ChartGui() {
         setTitle("Taxonomy Maker");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -30,19 +31,22 @@ public class ChartGui extends JFrame{
         tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
         add(new JScrollPane(tree), BorderLayout.CENTER);
 
-        JPanel detailPanel = new JPanel(new GridLayout(2, 2));
+        // Top bar for editing
+        JPanel topBar = new JPanel(new BorderLayout(5, 5));
         dataField = new JTextField();
         JButton updateBtn = new JButton("Update");
 
-        detailPanel.add(new JLabel("Data:"));
-        detailPanel.add(dataField);
-        detailPanel.add(new JLabel());
-        detailPanel.add(updateBtn);
-        add(detailPanel, BorderLayout.EAST);
+        topBar.add(new JLabel("Data:"), BorderLayout.WEST);
+        topBar.add(dataField, BorderLayout.CENTER);
+        topBar.add(updateBtn, BorderLayout.EAST);
+        topBar.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        add(topBar, BorderLayout.NORTH);
 
+        // Bottom button for adding child
         addChildBtn = new JButton("Add Child Node");
         add(addChildBtn, BorderLayout.SOUTH);
 
+        // Tree selection updates field
         tree.addTreeSelectionListener(e -> {
             DefaultMutableTreeNode selected = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
             if (selected != null) {
@@ -51,6 +55,7 @@ public class ChartGui extends JFrame{
             }
         });
 
+        // Update selected node data
         updateBtn.addActionListener(e -> {
             DefaultMutableTreeNode selected = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
             if (selected != null) {
@@ -60,6 +65,7 @@ public class ChartGui extends JFrame{
             }
         });
 
+        // Add new child node
         addChildBtn.addActionListener(e -> {
             DefaultMutableTreeNode selected = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
             if (selected != null) {
