@@ -3,13 +3,13 @@ package cocoismagik.main;
 import javax.swing.*;
 import javax.swing.tree.*;
 import java.awt.*;
-import java.awt.event.*;
+//import java.awt.event.*;
 
 public class ChartGui extends JFrame{
 
     private DefaultMutableTreeNode root;
     private JTree tree;
-    private JTextField dataField;
+    private JTextField dataField, data2Field;
 
     public ChartGui() {
         setTitle("Taxonomy Maker");
@@ -18,8 +18,8 @@ public class ChartGui extends JFrame{
         setLayout(new BorderLayout());
 
         root = new DefaultMutableTreeNode(new Node("Root Node"));
-        DefaultMutableTreeNode child1 = new DefaultMutableTreeNode(new Node("Child A"));
-        DefaultMutableTreeNode child2 = new DefaultMutableTreeNode(new Node("Child B"));
+        DefaultMutableTreeNode child1 = new DefaultMutableTreeNode(new Node("Child A", "Type B"));
+        DefaultMutableTreeNode child2 = new DefaultMutableTreeNode(new Node("Child B", "Type C"));
         root.add(child1);
         root.add(child2);
 
@@ -29,14 +29,20 @@ public class ChartGui extends JFrame{
         tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
         add(new JScrollPane(tree), BorderLayout.CENTER);
 
-        // Top bar for editing
+        // Top bar for editing data and data2 — now in a single row
         JPanel topBar = new JPanel(new BorderLayout(5, 5));
-        dataField = new JTextField();
+        JPanel fieldsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
+        dataField = new JTextField(15);
+        data2Field = new JTextField(15);
         JButton updateBtn = new JButton("Update");
 
-        topBar.add(new JLabel("Data:"), BorderLayout.WEST);
-        topBar.add(dataField, BorderLayout.CENTER);
-        topBar.add(updateBtn, BorderLayout.EAST);
+        fieldsPanel.add(new JLabel("Data 1:"));
+        fieldsPanel.add(dataField);
+        fieldsPanel.add(new JLabel("Data 2:"));
+        fieldsPanel.add(data2Field);
+        fieldsPanel.add(updateBtn);
+
+        topBar.add(fieldsPanel, BorderLayout.CENTER);
         topBar.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         add(topBar, BorderLayout.NORTH);
 
@@ -48,21 +54,23 @@ public class ChartGui extends JFrame{
         bottomPanel.add(removeNodeBtn);
         add(bottomPanel, BorderLayout.SOUTH);
 
-        // Tree selection updates field
+        // Tree selection updates fields
         tree.addTreeSelectionListener(e -> {
             DefaultMutableTreeNode selected = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
             if (selected != null) {
                 Node n = (Node) selected.getUserObject();
                 dataField.setText(n.data);
+                data2Field.setText(n.data2);
             }
         });
 
-        // Update selected node data
+        // Update selected node
         updateBtn.addActionListener(e -> {
             DefaultMutableTreeNode selected = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
             if (selected != null) {
                 Node n = (Node) selected.getUserObject();
                 n.data = dataField.getText();
+                n.data2 = data2Field.getText();
                 ((DefaultTreeModel) tree.getModel()).nodeChanged(selected);
             }
         });
@@ -78,7 +86,7 @@ public class ChartGui extends JFrame{
             }
         });
 
-        // Remove node and its subtree
+        // Remove selected node (except root)
         removeNodeBtn.addActionListener(e -> {
             DefaultMutableTreeNode selected = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
             if (selected != null && selected != root) {
