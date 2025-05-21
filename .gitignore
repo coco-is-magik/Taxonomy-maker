@@ -132,3 +132,4 @@ generated/
 *.txt
 token
 extracted_jars/
+*.ser

@@ -4,6 +4,10 @@ import javax.swing.*;
 import javax.swing.tree.*;
 import java.awt.*;
 //import java.awt.event.*;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 public class ChartGui extends JFrame{
 
@@ -79,6 +83,10 @@ public class ChartGui extends JFrame{
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JButton addChildBtn = new JButton("Add Child Node");
         JButton removeNodeBtn = new JButton("Remove Node");
+        JButton saveBtn = new JButton("Save");
+        JButton loadBtn = new JButton("Load");
+        bottomPanel.add(saveBtn);
+        bottomPanel.add(loadBtn);
         bottomPanel.add(addChildBtn);
         bottomPanel.add(removeNodeBtn);
         add(bottomPanel, BorderLayout.SOUTH);
@@ -130,6 +138,47 @@ public class ChartGui extends JFrame{
             }
         });
 
+        // Save to file using JFileChooser
+        saveBtn.addActionListener(e -> {
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle("Save Tree");
+            int result = fileChooser.showSaveDialog(this);
+            if (result == JFileChooser.APPROVE_OPTION) {
+                try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileChooser.getSelectedFile()))) {
+                    out.writeObject(root);
+                    JOptionPane.showMessageDialog(this, "Tree saved successfully.");
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(this, "Failed to save tree.");
+                }
+            }
+        });
+
+        // Load from file using JFileChooser
+        loadBtn.addActionListener(e -> {
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle("Load Tree");
+            int result = fileChooser.showOpenDialog(this);
+            if (result == JFileChooser.APPROVE_OPTION) {
+                try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(fileChooser.getSelectedFile()))) {
+                    root = (DefaultMutableTreeNode) in.readObject();
+                    tree.setModel(new DefaultTreeModel(root));
+                    ((DefaultTreeModel) tree.getModel()).reload();
+                    expandAll(tree);
+                    JOptionPane.showMessageDialog(this, "Tree loaded successfully.");
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(this, "Failed to load tree.");
+                }
+            }
+        });
+
         setVisible(true);
+    }
+
+    private void expandAll(JTree tree) {
+        for (int i = 0; i < tree.getRowCount(); i++) {
+            tree.expandRow(i);
+        }
     }
 }

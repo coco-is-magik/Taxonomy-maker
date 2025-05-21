@@ -1,6 +1,8 @@
 package cocoismagik.main;
 
-public class Node {
+import java.io.Serializable;
+
+public class Node implements Serializable{
     String data, data2, data3;
     public Node(String data){
         this.data = data;
