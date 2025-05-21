@@ -1,6 +1,6 @@
 # Taxonomy Maker
 
-Its just a node graph, dude. Click on a node in the tree, edit the data. Deleted nodes delete all children.
+Its just a node graph, dude. Click on a node in the tree, edit the data. Deleted nodes delete all children. Originally created out of frustration while working on a project involving speculative xenobiology.
 
 ---
 
