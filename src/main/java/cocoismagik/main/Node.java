@@ -1,7 +1,7 @@
 package cocoismagik.main;
 
 public class Node {
-    String data, data2;
+    String data, data2, data3;
     public Node(String data){
         this.data = data;
         this.data2 = "";
