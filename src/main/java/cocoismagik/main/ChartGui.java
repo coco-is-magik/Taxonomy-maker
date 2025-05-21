@@ -10,9 +10,7 @@ public class ChartGui extends JFrame{
     private DefaultMutableTreeNode root;
     private JTree tree;
     private JTextField dataField;
-    private JButton addChildBtn;
 
-    
     public ChartGui() {
         setTitle("Taxonomy Maker");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -42,9 +40,13 @@ public class ChartGui extends JFrame{
         topBar.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         add(topBar, BorderLayout.NORTH);
 
-        // Bottom button for adding child
-        addChildBtn = new JButton("Add Child Node");
-        add(addChildBtn, BorderLayout.SOUTH);
+        // Bottom panel with Add and Remove buttons
+        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JButton addChildBtn = new JButton("Add Child Node");
+        JButton removeNodeBtn = new JButton("Remove Node");
+        bottomPanel.add(addChildBtn);
+        bottomPanel.add(removeNodeBtn);
+        add(bottomPanel, BorderLayout.SOUTH);
 
         // Tree selection updates field
         tree.addTreeSelectionListener(e -> {
@@ -73,6 +75,19 @@ public class ChartGui extends JFrame{
                 selected.add(newNode);
                 ((DefaultTreeModel) tree.getModel()).reload(selected);
                 tree.expandPath(new TreePath(selected.getPath()));
+            }
+        });
+
+        // Remove node and its subtree
+        removeNodeBtn.addActionListener(e -> {
+            DefaultMutableTreeNode selected = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
+            if (selected != null && selected != root) {
+                MutableTreeNode parent = (MutableTreeNode) selected.getParent();
+                if (parent != null) {
+                    ((DefaultTreeModel) tree.getModel()).removeNodeFromParent(selected);
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Root node cannot be removed.");
             }
         });
 
