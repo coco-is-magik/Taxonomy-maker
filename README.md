@@ -13,21 +13,21 @@ Its just a node graph, dude. Click on a node in the tree, edit the data. Deleted
 - Optional `.jar` dependencies in `lib/`
 
 ### Directory Structure
-project-root/
-├── build.sh
-├── run_tests.sh
-├── update_libs.sh
-├── lib.config
-├── src/
-│ ├── main/
-│ │ ├── java/
-│ │ └── resources/ # optional
-│ └── test/
-│ └── Test.java # or any other test runner class
-├── lib/ # auto-managed
-├── dist/ # generated output JARs
-├── bin/ # intermediate class files
-└── test/ # compiled test classes
+project-root/<br>
+├── build.sh<br>
+├── run_tests.sh<br>
+├── update_libs.sh<br>
+├── lib.config<br>
+├── src/<br>
+│ ├── main/<br>
+│ │ ├── java/<br>
+│ │ └── resources/ # optional<br>
+│ └── test/<br>
+│ └── Test.java # or any other test runner class<br>
+├── lib/ # auto-managed<br>
+├── dist/ # generated output JARs<br>
+├── bin/ # intermediate class files<br>
+└── test/ # compiled test classes<br>
 
 ---
 
