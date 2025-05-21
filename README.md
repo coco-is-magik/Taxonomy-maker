@@ -1,6 +1,6 @@
-# Java Project Build & Test Toolkit
+# Taxonomy Maker
 
-This repository includes shell scripts to manage Java project builds, dependencies, and testing using a minimal toolchain approach. It avoids traditional build tools (like Maven or Gradle) and instead relies on `bash`, `javac`, and `jar`.
+Its just a node graph, dude. Click on a node in the tree, edit the data. Deleted nodes delete all children.
 
 ---
 
